@@ -1,21 +1,10 @@
 // API helper for making requests to the backend
-const API_BASE = 'http://localhost:3001/api';
-
-// Get the API base URL dynamically based on current hostname
-const getApiBase = () => {
-    // Priority 1: Environment Variable (Cloud Deployment)
-    if (import.meta.env.VITE_API_BASE_URL) {
-        return import.meta.env.VITE_API_BASE_URL;
-    }
-
-    // Priority 2: Localhost fallback
-    const hostname = window.location.hostname;
-    return `http://${hostname}:3001/api`;
-};
+// Use relative URL - works on any deployment since server serves both frontend and API
+const API_BASE = '/api';
 
 // Generic fetch wrapper with error handling
 const apiFetch = async (endpoint, options = {}) => {
-    const url = `${getApiBase()}${endpoint}`;
+    const url = `${API_BASE}${endpoint}`;
     const response = await fetch(url, {
         ...options,
         headers: {
