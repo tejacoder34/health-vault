@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { exec } = require('child_process');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const twilio = require('twilio');
 const mongoose = require('mongoose');
 
@@ -397,6 +397,17 @@ app.post('/api/blood-requests', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+// ============ SERVE FRONTEND (PRODUCTION) ============
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// The "catch-all" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 // ============ START SERVER ============
