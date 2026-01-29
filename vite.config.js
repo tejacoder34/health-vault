@@ -7,6 +7,12 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true,  // Expose on network so it can be accessed via IP from other devices
-    allowedHosts: true
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
+      }
+    }
   }
 })
